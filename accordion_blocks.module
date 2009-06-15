@@ -1,0 +1,26 @@
+<?php
+// $Id$
+/*
+ *@file 
+ * This module privide the accordion widget for the blocks on left and right side
+ */
+
+/*
+ * Implementation of hook_init()
+ */
+function accordion_blocks_init() {
+  // including accordion related javascript and css files
+  jquery_ui_add('ui.accordion');
+  drupal_add_js(drupal_get_path('module', 'accordion_blocks') .'/accordion_init.js');
+  drupal_add_css(drupal_get_path('module', 'accordion_blocks') .'/accordion_init.css');
+}
+
+/*
+ * Implementation of hook_theme_registry_alter()
+ */
+function accordion_blocks_theme_registry_alter(&$theme_registry) {
+  // using our own block.tpl.php file.
+  $theme_registry['block']['template'] = 'block';
+  $theme_registry['block']['path'] = drupal_get_path('module', 'accordion_blocks');
+  $theme_registry['block']['type'] = 'module';
+}

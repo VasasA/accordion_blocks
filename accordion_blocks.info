@@ -1,0 +1,5 @@
+; $Id$
+name = Blocks in accordion
+description = Displays blocks in jquery accordion widget
+core = 6.x
+dependencies[] = jquery_ui

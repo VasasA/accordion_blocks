@@ -20,7 +20,27 @@ function accordion_blocks_init() {
  */
 function accordion_blocks_theme_registry_alter(&$theme_registry) {
   // using our own block.tpl.php file.
+  global $theme;
+  // Populate all block regions.
+  $regions = system_region_list($theme);
+  if(empty($regions['left']) && empty($regions['right']))
+     return;
   $theme_registry['block']['template'] = 'block';
   $theme_registry['block']['path'] = drupal_get_path('module', 'accordion_blocks');
   $theme_registry['block']['type'] = 'module';
+  $theme_registry['block']['theme path'] = drupal_get_path('module', 'accordian_blocks');
+  $theme_registry['block']['theme paths'] = Array();
+}
+
+/**
+ * Implementation of template_preprocess_page()
+ */
+function accordion_blocks_preprocess_page(&$variables){
+  // to add the accordian effect add this parent div for the blocks
+  if (!empty($variables['right'])) {
+    $variables['right'] = '<div id="accordion_blocks_right">'. $variables['right'] .'</div>';
+  }
+  if (!empty($variables['left'])) {
+    $variables['left'] = '<div id="accordion_blocks_left">'. $variables['left'] .'</div>';
+  }
 }

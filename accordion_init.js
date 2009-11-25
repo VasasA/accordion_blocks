@@ -1,6 +1,10 @@
 // $Id$
-Drupal.behaviors.accordion_blocks = function(){
-    $('#accordion_blocks_left').accordion({header: "h2", autoHeight: false});
-    $('#accordion_blocks_right').accordion({header: "h2", autoHeight: false});
-};
+(function($) {
+    Drupal.behaviors.accordion_blocks = {
+	attach: function() {
+	    $('.accordion_blocks_container').accordion({header: "h2", autoHeight: false});
+	}
+    };
+})(jQuery);
+
 

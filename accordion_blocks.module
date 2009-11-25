@@ -10,7 +10,7 @@
  */
 function accordion_blocks_init() {
   // including accordion related javascript and css files
-  jquery_ui_add('ui.accordion');
+  drupal_add_library('system', 'ui.accordion');
   drupal_add_js(drupal_get_path('module', 'accordion_blocks') .'/accordion_init.js');
   drupal_add_css(drupal_get_path('module', 'accordion_blocks') .'/accordion_init.css');
 }
@@ -23,7 +23,7 @@ function accordion_blocks_theme_registry_alter(&$theme_registry) {
   global $theme;
   // Populate all block regions.
   $regions = system_region_list($theme);
-  if(empty($regions['left']) && empty($regions['right']))
+  if(empty($regions['sidebar_first']) && empty($regions['sidebar_second']))
      return;
   $theme_registry['block']['template'] = 'block';
   $theme_registry['block']['path'] = drupal_get_path('module', 'accordion_blocks');
@@ -37,10 +37,37 @@ function accordion_blocks_theme_registry_alter(&$theme_registry) {
  */
 function accordion_blocks_preprocess_page(&$variables){
   // to add the accordian effect add this parent div for the blocks
-  if (!empty($variables['right'])) {
-    $variables['right'] = '<div id="accordion_blocks_right">'. $variables['right'] .'</div>';
+  if (!empty($variables['page']['sidebar_first'])) {
+    $variables['page']['sidebar_first']['#theme_wrappers'][] = 'accordion_blocks';
   }
-  if (!empty($variables['left'])) {
-    $variables['left'] = '<div id="accordion_blocks_left">'. $variables['left'] .'</div>';
+
+  if (!empty($variables['page']['sidebar_second'])) {
+    $variables['page']['sidebar_second']['#theme_wrappers'][] = 'accordion_blocks';
   }
+}
+
+/**
+ * Implementation of hook_theme()
+ */
+function accordion_blocks_theme() {
+  return array(
+    'accordion_blocks' => array(
+      'render element' => 'elements', 
+      'arguments' => array('elements'=>array())
+    ),
+  );
+}
+
+/**
+ * accordion_blocks theme
+ */
+function theme_accordion_blocks($variables) {
+  $output = '<div class="accordion_blocks_container">';
+  foreach($variables['elements'] as $key => $value) {
+    if (is_array($value) && array_key_exists('#children', $value)) {
+      $output .= $value['#children'];
+    }
+  }
+  $output .= '</div>';
+  return $output;
 }

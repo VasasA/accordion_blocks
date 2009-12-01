@@ -20,11 +20,6 @@ function accordion_blocks_init() {
  */
 function accordion_blocks_theme_registry_alter(&$theme_registry) {
   // using our own block.tpl.php file.
-  global $theme;
-  // Populate all block regions.
-  $regions = system_region_list($theme);
-  if(empty($regions['sidebar_first']) && empty($regions['sidebar_second']))
-     return;
   $theme_registry['block']['template'] = 'block';
   $theme_registry['block']['path'] = drupal_get_path('module', 'accordion_blocks');
   $theme_registry['block']['type'] = 'module';
@@ -37,12 +32,9 @@ function accordion_blocks_theme_registry_alter(&$theme_registry) {
  */
 function accordion_blocks_preprocess_page(&$variables){
   // to add the accordian effect add this parent div for the blocks
-  if (!empty($variables['page']['sidebar_first'])) {
-    $variables['page']['sidebar_first']['#theme_wrappers'][] = 'accordion_blocks';
-  }
-
-  if (!empty($variables['page']['sidebar_second'])) {
-    $variables['page']['sidebar_second']['#theme_wrappers'][] = 'accordion_blocks';
+  $regions_list = variable_get('accordion_regions',array('sidebar_first', 'sidebar_second'));
+  foreach ($regions_list as $region) {
+    $variables['page'][$region]['#theme_wrappers'][] = 'accordion_blocks';
   }
 }
 
@@ -70,4 +62,37 @@ function theme_accordion_blocks($variables) {
   }
   $output .= '</div>';
   return $output;
+}
+
+/**
+ * Implementation of hook_menu()
+ */ 
+function accordion_blocks_menu() {
+  //settings page
+  $items['admin/settings/accordion_blocks'] = array(
+    "title" => t("Accordion Blocks"),
+    "description" => t("Configure the Regions to apply Accordion effect."),
+    "page callback" => "drupal_get_form",
+    "page arguments" => array('accordion_blocks_settings_form'),
+    "access arguments" => array('administer site configuration'),
+						    );
+  return $items;
+}
+
+/**
+ * callback for the url admin/settings/accordion_blocks
+ */
+function accordion_blocks_settings_form() {
+  $form = array();
+  global $user;
+  $themes = list_themes();
+  $theme = !empty($user->theme) && !empty($themes[$user->theme]->status) ? $user->theme : variable_get('theme_default', 'garland');
+  $regions_list = system_region_list($theme);
+  $form['accordion_regions'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Select Regions to apply Accordion effect'),
+    '#options' => $regions_list,
+    '#default_value' => variable_get('accordion_regions',array('sidebar_first', 'sidebar_second')),
+				     );
+  return system_settings_form($form);
 }

@@ -54,7 +54,7 @@ function accordion_blocks_theme() {
  * accordion_blocks theme
  */
 function theme_accordion_blocks($variables) {
-  $output = '<div class="accordion_blocks_container">';
+  $output = '<div class="accordion_blocks_container region">';
   foreach($variables['elements'] as $key => $value) {
     if (is_array($value) && array_key_exists('#children', $value)) {
       $output .= $value['#children'];

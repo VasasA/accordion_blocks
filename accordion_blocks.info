@@ -1,4 +1,3 @@
-; $Id$
 name = Blocks in accordion
 description = Displays blocks in jquery accordion widget
 core = 7.x

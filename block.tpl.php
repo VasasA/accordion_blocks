@@ -1,5 +1,4 @@
 <?php
-// $Id$
 ?>
 <div id="block-<?php print $block->module . '-' . $block->delta; ?>" <?php print $attributes; ?>>
 

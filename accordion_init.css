@@ -22,3 +22,7 @@
 .ui-widget-content a {
   color: inherit;
 }
+
+.ui-accordion-header {
+  margin-bottom: 0px;
+}

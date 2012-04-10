@@ -31,15 +31,8 @@ function accordion_blocks_init() {
  */ 
 function accordion_blocks_menu() {
   //settings page
-  $items['admin/config/user-interface/accordion-blocks'] = array(
-    "title" => t("Accordion Blocks"),
-    "description" => t("Configure the Regions to apply Accordion effect."),
-    "page callback" => "drupal_get_form",
-    "page arguments" => array('accordion_blocks_settings_form'),
-    "access arguments" => array('administer site configuration'),
-	);
   $items['admin/structure/accordion_block'] = array(
-    'title' => 'Accordion Block',
+    'title' => 'Accordion Blocks',
     'description' => 'Create blocks of accordion content.',
     'page callback' => 'accordion_block_list',
     'access arguments' => array('administer accordion blocks configuration'),
@@ -81,7 +74,7 @@ function accordion_blocks_menu() {
     'page arguments' => array('accordion_block_delete', 4),
     'access arguments' => array('administer accordion block configuration'),
     'type' => MENU_LOCAL_TASK,
-    'file' => 'accordion_block.admin.inc',
+    'file' => 'accordion_blocks.admin.inc',
   );
 
   return $items;
@@ -97,7 +90,7 @@ function accordion_blocks_menu() {
  *   array of the block content,
  *   skin and title of the accordion block.
  */
-function accordion_blocks_load($id) {
+function accordion_block_load($id) {
   $content = array();
 
   $query = db_select('accordion_blocks', 'sd')
@@ -140,7 +133,7 @@ function accordion_blocks_block_view($delta = '') {
   $scripts = array();
   $style = array();
 
-  $accordion_block_data = accordion_blocks_load($id);
+  $accordion_block_data = accordion_block_load($id);
 
   // Building the content for the accordion block.
   $content = accordion_block_content($delta, $id);
@@ -158,7 +151,7 @@ function accordion_blocks_block_view($delta = '') {
  *   the block content for the accordion block.
  */
 function accordion_block_content($delta, $id) {
-  $accordion_data = accordion_blocks_load($id);
+  $accordion_data = accordion_block_load($id);
   if ($delta == $accordion_data['title'] . "_" . $accordion_data['id']) {
     $data = unserialize($accordion_data['content']);
     $blocks_content = array();

@@ -161,9 +161,17 @@ function accordion_block_content($delta, $id) {
           $blocks_info = explode('_delta_', $block);
           $block_data = block_load($blocks_info[0], $blocks_info[1]);
           $blocks_content[$key] = new stdClass();
-          $blocks_content[$key]->title =  $block_data->title;
           $block_content = module_invoke($blocks_info[0], "block_view", $blocks_info[1]);
           $blocks_content[$key]->content =  $block_content['content'];
+          if ($block_data->title) {
+            $blocks_content[$key]->title = $block_data->title;
+          }
+          elseif (isset($block_content['subject'])) {
+            $blocks_content[$key]->title = $block_content['subject'];
+          }
+          else {
+            $blocks_content[$key]->title = '';
+          }
         }
       }
     }

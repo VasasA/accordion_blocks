@@ -10,13 +10,15 @@
 ?>
 <div class="accordion_blocks_container">
   <?php foreach ($content as $block_key => $block) : ?>
-  <h2><a href="#">
-  <?php if($block->title) : ?>
-	<?php print check_plain($block->title); ?>
-	<?php endif; ?>
-  </a></h2>
-  <div>
-  <?php print render($block->content);?>
-  </div>
+  <?php if ($block->content != NULL): ?>
+    <h2><a href="#">
+    <?php if($block->title) : ?>
+      <?php print check_plain($block->title); ?>
+    <?php endif; ?>
+    </a></h2>
+    <div>
+      <?php print render($block->content);?>
+    </div>
+  <?php endif;?>
   <?php endforeach; ?>
 </div>

@@ -162,7 +162,12 @@ function accordion_block_content($delta, $id) {
           $block_data = block_load($blocks_info[0], $blocks_info[1]);
           $blocks_content[$key] = new stdClass();
           $block_content = module_invoke($blocks_info[0], "block_view", $blocks_info[1]);
-          $blocks_content[$key]->content =  $block_content['content'];
+          if (isset($block_content['content'])) {
+            $blocks_content[$key]->content =  $block_content['content'];
+          }
+          else {
+              $blocks_content[$key]->content =  NULL;
+          }
           if ($block_data->title) {
             $blocks_content[$key]->title = $block_data->title;
           }

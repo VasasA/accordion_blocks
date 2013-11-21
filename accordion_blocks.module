@@ -51,7 +51,7 @@ function accordion_blocks_menu() {
     'description' => 'Configuring the Accordion Block Settings.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('accordion_block_config_settings', 'add'),
-    'access arguments' => array('administer accordion block configuration'),
+    'access arguments' => array('administer accordion blocks configuration'),
     'type' => MENU_LOCAL_ACTION,
     'weight' => 1,
   );
@@ -60,7 +60,7 @@ function accordion_blocks_menu() {
     'title' => 'Edit Accordion Block',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('accordion_block_config_settings', 'edit', 4),
-    'access arguments' => array('administer accordion block configuration'),
+    'access arguments' => array('administer accordion blocks configuration'),
     );
 
   $items['admin/structure/accordion_block/manage/%accordion_block/edit'] = array(
@@ -72,7 +72,7 @@ function accordion_blocks_menu() {
     'title' => 'Delete accordion block',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('accordion_block_delete', 4),
-    'access arguments' => array('administer accordion block configuration'),
+    'access arguments' => array('administer accordion blocks configuration'),
     'type' => MENU_LOCAL_TASK,
     'file' => 'accordion_blocks.admin.inc',
   );

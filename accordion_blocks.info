@@ -1,4 +1,7 @@
 name = Blocks in accordion
 description = Displays blocks in jquery accordion widget
-core = 7.x
+backdrop = 1.x
 configure = admin/structure/accordion_block
+type = module
+package = Appearance
+tags[] = Blocks

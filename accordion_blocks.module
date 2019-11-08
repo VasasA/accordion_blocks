@@ -22,8 +22,8 @@ function accordion_blocks_permission() {
 function accordion_blocks_init() {
   // including accordion related javascript and css files
   drupal_add_library('system', 'ui.accordion');
-  drupal_add_js(drupal_get_path('module', 'accordion_blocks') .'/accordion_init.js');
-  drupal_add_css(drupal_get_path('module', 'accordion_blocks') .'/accordion_init.css');
+  drupal_add_js(drupal_get_path('module', 'accordion_blocks') .'/js/accordion_init.js');
+  drupal_add_css(drupal_get_path('module', 'accordion_blocks') .'/css/accordion_init.css');
 }
 
 /**
@@ -192,7 +192,7 @@ function accordion_blocks_theme() {
   return array(
     'accordion_block' => array(
       'variables' => array('content' => NULL,),
-      'template' => 'accordion_block',
+      'template' => 'templates/accordion_block',
       ),
   );
 }

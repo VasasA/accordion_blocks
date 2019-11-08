@@ -159,7 +159,7 @@ function accordion_block_content($delta, $id) {
       foreach ($data as $key => $block) {
         if (!empty($block)) {
           $blocks_info = explode('_delta_', $block);
-          $block_data = block_load($blocks_info[0], $blocks_info[1]);
+          $block_data = block_custom_block_load($blocks_info[1]);
           $blocks_content[$key] = new stdClass();
           $block_content = module_invoke($blocks_info[0], "block_view", $blocks_info[1]);
           if (isset($block_content['content'])) {
@@ -168,8 +168,8 @@ function accordion_block_content($delta, $id) {
           else {
               $blocks_content[$key]->content =  NULL;
           }
-          if ($block_data->title) {
-            $blocks_content[$key]->title = $block_data->title;
+          if ($block_data['title']) {
+            $blocks_content[$key]->title = $block_data['title'];
           }
           elseif (isset($block_content['subject'])) {
             $blocks_content[$key]->title = $block_content['subject'];
@@ -392,16 +392,14 @@ function accordion_block_get_all_blocks() {
       $theme = $theme_key;
     }
     // Fetch and sort blocks.
-    $blocks = _block_rehash($theme);
-    $compare_theme = &drupal_static('_block_compare:theme');
-    $compare_theme = $theme;
-    usort($blocks, '_block_compare');
+    $blocks = block_block_info();
+    ksort($blocks);
     $blocksarray = array();
     foreach ($blocks as $id => $block) {
-      if ($block['module'] != 'accordion_blocks') {
-        $key = $block['module'] . '_delta_' . $block['delta'];
+      // if ($block['module'] != 'accordion_blocks') {
+        $key = '_delta_' . $id;
         $blocksarray[$key] = $block['info'];
-      }
+      // }
     }
   }
 
